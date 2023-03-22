@@ -263,6 +263,12 @@ class _V5HTTPManager:
             # Convert response to dictionary, or raise if requests error.
             try:
                 s_json = s.json()
+                # Add headers into response for ease of use
+                s_json["x-bapi-headers"] = {
+                    k: v
+                    for k, v in s.headers.items()
+                    if k.startswith("X-Bapi")
+                }
 
             # If we have trouble converting, handle the error and retry.
             except JSONDecodeError as e:
