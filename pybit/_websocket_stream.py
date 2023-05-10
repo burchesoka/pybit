@@ -426,27 +426,31 @@ class _V5WebSocketManager(_WebSocketManager):
             self._pop_callback(sub[0])
 
     def _process_normal_message(self, message):
-        topic = message["topic"]
-        if "orderbook" in topic:
-            self._process_delta_orderbook(message, topic)
-            callback_data = copy.deepcopy(message)
-            callback_data["type"] = "snapshot"
-            callback_data["data"] = self.data[topic]
-        elif "tickers" in topic:
-            self._process_delta_ticker(message, topic)
-            callback_data = copy.deepcopy(message)
-            callback_data["type"] = "snapshot"
-            callback_data["data"] = self.data[topic]
+        if 'topic' in message:
+            topic = message["topic"]
+            if "orderbook" in topic:
+                self._process_delta_orderbook(message, topic)
+                callback_data = copy.deepcopy(message)
+                callback_data["type"] = "snapshot"
+                callback_data["data"] = self.data[topic]
+            elif "tickers" in topic:
+                self._process_delta_ticker(message, topic)
+                callback_data = copy.deepcopy(message)
+                callback_data["type"] = "snapshot"
+                callback_data["data"] = self.data[topic]
+            else:
+                callback_data = message
+            callback_function = self._get_callback(topic)
+            callback_function(callback_data)
         else:
-            callback_data = message
-        callback_function = self._get_callback(topic)
-        callback_function(callback_data)
+            print(message)
 
     def _handle_incoming_message(self, message):
         def is_auth_message():
             if (
                 message.get("op") == "auth"
                 or message.get("type") == "AUTH_RESP"
+                or (message.get('request') and message.get('request').get('op') == 'auth')
             ):
                 return True
             else:

@@ -33,7 +33,7 @@ It was designed with the following vision in mind:
 ## Installation
 `pybit` requires Python 3.9.1 or higher. The module can be installed manually or via [PyPI](https://pypi.org/project/pybit/) with `pip`:
 ```
-pip install git+https://github.com/ervuks/pybit.git@v5+copytrading
+pip install git+https://github.com/burchesoka/pybit.git@v5+copytrading
 ```
 
 ## Usage
