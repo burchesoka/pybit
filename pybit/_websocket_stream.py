@@ -464,6 +464,7 @@ class _V5WebSocketManager(_WebSocketManager):
             if (
                 message.get("op") == "subscribe"
                 or message.get("type") == "COMMAND_RESP"
+                or (message.get('request') and message.get('request').get('op') == 'subscribe')
             ):
                 return True
             else:
