@@ -33,7 +33,7 @@ It was designed with the following vision in mind:
 ## Installation
 `pybit` requires Python 3.9.1 or higher. The module can be installed manually or via [PyPI](https://pypi.org/project/pybit/) with `pip`:
 ```
-pip install git+https://github.com/ervuks/pybit.git@v5-only
+pip install git+https://github.com/ervuks/pybit.git@v5+copytrading
 ```
 
 ## Usage
@@ -69,6 +69,53 @@ payload["request"] = orders
 # Submit the orders in bulk.
 session.place_batch_order(payload)
 
+```
+Websocket for copytrading:
+```python
+import time
+from pybit.copy_trading import WebSocket as CPWebsocket
+
+
+def get_private_websocket(test: bool = False):
+    if test:
+        api_key = 'xxx'
+        api_secret = 'xxx'
+    else:
+        api_key = 'xxx'
+        api_secret = 'xxx'
+
+    return CPWebsocket(
+        channel_type='private',
+        api_key=api_key,
+        api_secret=api_secret,
+        testnet=True if test else None,
+        restart_on_error=True,
+        retries=200,
+        ping_interval=19,
+    )
+
+def main():
+    def user_data_handler(message):
+        print(message)
+
+    try:
+        ws_private = get_private_websocket(test=True)
+
+        ws_private.copy_trade_order_stream(user_data_handler)
+
+        while True:
+            time.sleep(10)
+    except KeyboardInterrupt:
+        ...
+    except Exception as e:
+        print(e)
+        raise e
+    finally:
+        ws_private.exit()
+
+
+if __name__ == '__main__':
+    main()
 ```
 Check out the example python files or the list of endpoints below for more information on available
 endpoints and methods. Usage examples on the `HTTP` methods can
