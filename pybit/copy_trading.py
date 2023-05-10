@@ -1,17 +1,9 @@
-from dataclasses import dataclass
 from pybit.exceptions import (
     InvalidChannelTypeError,
     TopicMismatchError,
     UnauthorizedExceptionError,
 )
-from ._v5_market import MarketHTTP
-from ._v5_trade import TradeHTTP
-from ._v5_account import AccountHTTP
-from ._v5_asset import AssetHTTP
-from ._v5_position import PositionHTTP
-from ._v5_spot_leverage_token import SpotLeverageHTTP
-from ._v5_spot_margin_trade import SpotMarginTradeHTTP
-from ._v5_user import UserHTTP
+
 from ._websocket_stream import _V5WebSocketManager
 
 
@@ -23,22 +15,7 @@ AVAILABLE_CHANNEL_TYPES = [
 ]
 
 
-@dataclass
-class HTTP(
-    MarketHTTP,
-    TradeHTTP,
-    AccountHTTP,
-    AssetHTTP,
-    PositionHTTP,
-    SpotLeverageHTTP,
-    SpotMarginTradeHTTP,
-    UserHTTP,
-):
-    def __init__(self, **args):
-        super().__init__(**args)
-
-
-class WebSocket(_V5WebSocketManager):
+class CopyTradeWebSocket(_V5WebSocketManager):
     def _validate_topic_match(self):
         if not self.WS_URL.endswith("private"):
             raise TopicMismatchError(

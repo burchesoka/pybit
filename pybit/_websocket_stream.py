@@ -292,6 +292,10 @@ class _V5WebSocketManager(_WebSocketManager):
             "order",
             "wallet",
             "greeks",
+            "copyTradeOrder",
+            "copyTradePosition",
+            "copyTradeExecution",
+            "copyTradeWallet",
         ]
 
         self.symbol_wildcard = "*"

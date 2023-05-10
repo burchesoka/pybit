@@ -73,7 +73,7 @@ session.place_batch_order(payload)
 Websocket for copytrading:
 ```python
 import time
-from pybit.copy_trading import WebSocket as CPWebsocket
+from pybit.copy_trading import CopyTradeWebSocket
 
 
 def get_private_websocket(test: bool = False):
@@ -84,7 +84,7 @@ def get_private_websocket(test: bool = False):
         api_key = 'xxx'
         api_secret = 'xxx'
 
-    return CPWebsocket(
+    return CopyTradeWebSocket(
         channel_type='private',
         api_key=api_key,
         api_secret=api_secret,
