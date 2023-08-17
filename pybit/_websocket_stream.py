@@ -338,6 +338,14 @@ class _V5WebSocketManager(_WebSocketManager):
         self.ws.send(subscription_message)
         self.subscriptions[req_id] = subscription_message
         self._set_callback(topic, callback)
+        logger.info(
+            'Subscribed to topic: %s '
+            '\nself.callback_directory: %s '
+            '\nself.subscriptions: %s',
+            topic,
+            self.callback_directory,
+            self.subscriptions
+        )
 
     def _initialise_local_data(self, topic):
         # Create self.data
@@ -483,7 +491,6 @@ class _V5WebSocketManager(_WebSocketManager):
     def _extract_topic(self, topic_string):
         if topic_string in self.private_topics:
             return topic_string
-
 
     def _check_callback_directory(self, topics):
         for topic in topics:
