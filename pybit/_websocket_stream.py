@@ -450,7 +450,7 @@ class _V5WebSocketManager(_WebSocketManager):
                 callback_data = copy.deepcopy(message)
                 callback_data["type"] = "snapshot"
                 callback_data["data"] = self.data[topic]
-            elif "copyTradeWallet" in topic:
+            elif "wallet" in topic.lower():
                 message['api_key'] = self.api_key
                 callback_data = message
             else:
